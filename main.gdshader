@@ -18,7 +18,7 @@ void vertex() {
     float dy_dx = 0.0;
     float dy_dz = 0.0;
 
-    for (int i = 0; i < 32; i++) {
+    for (int i = 0; i < SIZE; i++) {
         float amplitude = amplitudes[i];
         float freq = frequencies[i];
         vec2 d = wave_directions[i];

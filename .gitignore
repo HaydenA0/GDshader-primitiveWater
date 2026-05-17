@@ -1,2 +1,9 @@
 .godot/
 *.exr
+*.uid
+autumn_field_puresky_4k.exr.import
+icon.svg.import
+camera_3d.gd.uid
+mesh_instance_3d.gd.uid
+main.gdshader.uid
+

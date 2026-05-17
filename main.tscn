@@ -7,32 +7,61 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ig7tw"]
 render_priority = 0
 shader = ExtResource("1_ig7tw")
-shader_parameter/waves = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/frequencies = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/wave_directions = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
-shader_parameter/deep_color = Color(0, 0.1, 0.2, 1)
-shader_parameter/shallow_color = Color(0.1, 0.4, 0.7, 1)
-shader_parameter/metallic = 0.0
-shader_parameter/roughness = 0.02
+shader_parameter/amplitudes = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/frequencies = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/wave_directions = PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/phases = PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+shader_parameter/deep_color = Color(0, 0.1, 0.5, 1)
+shader_parameter/shallow_color = Color(0, 0.5, 0.5, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_0xm2m"]
 material = SubResource("ShaderMaterial_ig7tw")
-size = Vector2(600, 600)
-subdivide_width = 200
+size = Vector2(2000, 2000)
+subdivide_width = 1000
 subdivide_depth = 1000
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_h2yge"]
+sky_curve = 0.15890524
+ground_bottom_color = Color(0.1725498, 0.1725498, 0.25254533, 1)
+
+[sub_resource type="Sky" id="Sky_h2yge"]
+sky_material = SubResource("ProceduralSkyMaterial_h2yge")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_1bvp3"]
+background_mode = 2
+sky = SubResource("Sky_h2yge")
+glow_intensity = 0.96
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.5176471, 0.5529412, 1, 1)
+fog_light_energy = 16.0
+fog_density = 1.0
+fog_aerial_perspective = 1.0
+fog_sky_affect = 0.293
+fog_depth_curve = 1.3425728
+fog_depth_end = 2203.1
+volumetric_fog_density = 0.01
+volumetric_fog_albedo = Color(0.7058824, 0.7058824, 1, 1)
+volumetric_fog_sky_affect = 0.344
 
 [node name="main" type="Node3D" unique_id=677957167]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1656995349]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.11786, -4.609173, -0.12347412)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.23448, 233.96715, -0.32165527)
 mesh = SubResource("PlaneMesh_0xm2m")
 script = ExtResource("2_h2yge")
+min_wavelength = 0.01
 
 [node name="Sun" type="DirectionalLight3D" parent="MeshInstance3D" unique_id=1055118663]
-transform = Transform3D(-0.03385104, 0.5708999, -0.82032156, 0.023538472, 0.8210197, 0.5704144, 0.9991497, 5.5895084e-09, -0.04123048, -79.28887, 21.265476, 5.1321154)
+transform = Transform3D(0.9947467, 0.03380042, 0.09662632, -0.02744479, 0.99741805, -0.06636422, -0.09861997, 0.0633637, 0.9931058, -2448.909, -429.58313, 298.08673)
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1017354209]
-transform = Transform3D(-0.00049394375, -0.31930774, 0.94765097, 8.146286e-09, 0.9476511, 0.31930777, -0.9999999, 0.0001577278, -0.00046808374, 241.74832, 437.32712, 14.130016)
-fov = 60.385773
+transform = Transform3D(-0.00049394375, -0.31930774, 0.94765097, 8.146286e-09, 0.9476511, 0.31930777, -0.9999999, 0.0001577278, -0.00046808374, 0, 238.90283, -425.9405)
+fov = 39.3
 script = ExtResource("2_0xm2m")
+speed = 1000.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1995221093]
+environment = SubResource("Environment_1bvp3")

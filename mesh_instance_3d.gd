@@ -1,46 +1,57 @@
 extends MeshInstance3D
 
-@onready var sun = get_node("Sun") as DirectionalLight3D
 @onready var mat := mesh.surface_get_material(0) as ShaderMaterial
-
 
 const SIZE := 50
 
+
+
+
+@export var max_wavelength := 80.0
+@export var min_wavelength := 0.9
+@export var global_steepness := 0.2
+
 func _ready() -> void:
-	var waves := PackedFloat32Array()
+	var amplitudes := PackedFloat32Array()
 	var frequencies := PackedFloat32Array()
 	var directions := PackedVector2Array()
-
-	var base_amplitude := 1.0
-	var base_frequency := 0.2
-	var roughness := 0.55     # controls decay
-	var lacunarity := 1.9     # frequency growth
+	var phases := PackedFloat32Array()
 
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
+	
 
 	for i in range(SIZE):
-		var amplitude = base_amplitude * pow(roughness, i)
-		var frequency = base_frequency * pow(lacunarity, i)
-		var direction = Vector2(rng.randf_range(-2.0, 2.0), rng.randf_range(-2.0, 2.0))
-		var direction_normalized := direction.normalized()
+		var min_freq = (2.0 * PI) / max_wavelength
+		var max_freq = (2.0 * PI) / min_wavelength
+		
 
-		amplitude *= rng.randf_range(0.8, 1.2)
+		var t = float(i) / float(SIZE - 1)
+		var frequency = lerp(min_freq, max_freq, pow(t, 1.5))
+		
+
 		frequency *= rng.randf_range(0.9, 1.1)
+		var current_steepness = global_steepness * lerp(1.0, 0.3, t)
+		var amplitude = current_steepness / frequency
+
+		var angle = rng.randf_range(0, TAU)
 
 
+		var direction = Vector2(cos(angle), sin(angle)).normalized()
 
-		waves.append(amplitude)
+
+		var phase = rng.randf_range(0, TAU)
+
+		amplitudes.append(amplitude)
 		frequencies.append(frequency)
-		directions.append(direction_normalized)
-
-	print("waves:", waves)
-	print("frequencies:", frequencies)
-	print("directions:", directions)
+		directions.append(direction)
+		phases.append(phase)
 
 	if mat:
-		mat.set_shader_parameter("waves", waves)
+		mat.set_shader_parameter("amplitudes", amplitudes)
 		mat.set_shader_parameter("frequencies", frequencies)
 		mat.set_shader_parameter("wave_directions", directions)
+		mat.set_shader_parameter("phases", phases)
+
 func _process(_delta: float) -> void:
 	pass
